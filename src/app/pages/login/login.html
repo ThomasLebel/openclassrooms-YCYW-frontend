@@ -1,1 +1,9 @@
-<p>login works!</p>
+<div class="login-container">
+  <h2>Se connecter</h2>
+  <input [(ngModel)]="username" placeholder="Pseudo" />
+  <select [(ngModel)]="role">
+    <option value="USER">Utilisateur</option>
+    <option value="SUPPORT">Support</option>
+  </select>
+  <button [disabled]="!username || !role" (click)="login()">Se connecter</button>
+</div>
