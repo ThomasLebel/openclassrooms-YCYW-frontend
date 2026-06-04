@@ -1,0 +1,15 @@
+<div class="chat-container">
+  <div class="chat-header">
+    <h2>Chat</h2>
+  </div>
+  <div class="chat-messages">
+    @for (message of messages(); track $index) {
+      <app-message [message]="message"></app-message>
+    }
+    <div class="scroll-anchor" #scrollAnchor></div>
+  </div>
+  <div class="chat-input">
+    <textarea placeholder="Type your message..." [(ngModel)]="messageInput"></textarea>
+    <button (click)="sendMessage()">Envoyer</button>
+  </div>
+</div>
