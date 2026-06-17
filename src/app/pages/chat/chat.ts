@@ -11,6 +11,7 @@ import { Message } from './components/message/message';
 import { IMessage } from '../../models/message';
 import { UserService } from '../../services/user-service';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-chat',
@@ -22,6 +23,7 @@ export class Chat {
   @ViewChild('scrollAnchor')
   private scrollAnchor!: ElementRef<HTMLDivElement>;
   private readonly userService = inject(UserService);
+  private readonly router = inject(Router);
   messageInput: string = '';
   messages: WritableSignal<IMessage[]> = signal([
     {
@@ -77,10 +79,15 @@ export class Chat {
     });
   }
   sendMessage(): void {
+    const username = this.userService.getUsername();
+    if (!username) {
+      this.router.navigate(['/login']);
+      return;
+    }
     const newMessage: IMessage = {
       content: this.messageInput,
       timestamp: new Date(),
-      sendBy: this.userService.getUser(),
+      sendBy: username,
     };
     this.messages.set([...this.messages(), newMessage]);
     this.messageInput = '';

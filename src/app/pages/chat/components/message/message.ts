@@ -16,6 +16,8 @@ export class Message implements OnInit {
   private readonly userService = inject(UserService);
 
   ngOnInit(): void {
-    this.isCurrentUser = this.message.sendBy === this.userService.getUser();
+    const username = this.userService.getUsername();
+    if (!username) return;
+    this.isCurrentUser = this.message.sendBy === username;
   }
 }

@@ -1,0 +1,25 @@
+:host {
+  display: block;
+  width: 90%;
+}
+
+.chat-history-element {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-radius: 20px;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  &:hover {
+    background-color: #e0e0e0;
+  }
+}
+
+.chat-history-element-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}

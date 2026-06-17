@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-chat-history-element',
@@ -7,5 +8,8 @@ import { Component } from '@angular/core';
   styleUrl: './chat-history-element.scss',
 })
 export class ChatHistoryElement {
-
+  private readonly router = inject(Router);
+  onChatHistoryElementClick(): void {
+    this.router.navigate(['/chat']);
+  }
 }

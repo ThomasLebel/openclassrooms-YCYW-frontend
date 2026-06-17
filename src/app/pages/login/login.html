@@ -1,9 +1,22 @@
 <div class="login-container">
   <h2>Se connecter</h2>
-  <input [(ngModel)]="username" placeholder="Pseudo" />
-  <select [(ngModel)]="role">
-    <option value="USER">Utilisateur</option>
-    <option value="SUPPORT">Support</option>
-  </select>
-  <button [disabled]="!username || !role" (click)="login()">Se connecter</button>
+  <div class="input-group">
+    <input [(ngModel)]="username" placeholder="Saisir un pseudo" />
+    @if (usernameError) {
+      <span class="error">Veuillez saisir un pseudo</span>
+    }
+  </div>
+
+  <div class="input-group">
+    <select [(ngModel)]="role">
+      <option [value]="undefined">Sélectionner un rôle</option>
+      <option value="USER">Utilisateur</option>
+      <option value="SUPPORT">Support</option>
+    </select>
+    @if (roleError) {
+      <span class="error">Veuillez sélectionner un rôle</span>
+    }
+  </div>
+
+  <button (click)="login()">Se connecter</button>
 </div>

@@ -1,21 +1,27 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
+import { role } from '../models/role';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  fullName: WritableSignal<string> = signal('Bob User');
+  username: WritableSignal<string | undefined> = signal(undefined);
+  role: WritableSignal<role | null> = signal(null);
 
-  setUser(fullName: string): void {
-    this.fullName.set(fullName);
-    localStorage.setItem('user', fullName);
+  setUser(fullName: string, role: role): void {
+    this.username.set(fullName);
+    this.role.set(role);
   }
 
-  getUser(): string {
-    return this.fullName();
+  getUsername(): string | undefined {
+    return this.username();
+  }
+
+  getRole(): role | null {
+    return this.role();
   }
 
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('user');
+    return this.role() !== null;
   }
 }
