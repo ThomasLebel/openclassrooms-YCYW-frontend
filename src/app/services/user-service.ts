@@ -24,4 +24,9 @@ export class UserService {
   isLoggedIn(): boolean {
     return this.role() !== null;
   }
+
+  disconnect(): void {
+    this.username.set(undefined);
+    this.role.set(null);
+  }
 }

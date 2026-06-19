@@ -7,11 +7,11 @@ import {
   ViewChild,
   WritableSignal,
 } from '@angular/core';
-import { Message } from './components/message/message';
-import { IMessage } from '../../models/message';
-import { UserService } from '../../services/user-service';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { IMessage } from '../../models/message';
+import { UserService } from '../../services/user-service';
+import { Message } from './components/message/message';
 
 @Component({
   selector: 'app-chat',
@@ -91,5 +91,12 @@ export class Chat {
     };
     this.messages.set([...this.messages(), newMessage]);
     this.messageInput = '';
+  }
+
+  onEnter(event: KeyboardEvent): void {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      this.sendMessage();
+    }
   }
 }

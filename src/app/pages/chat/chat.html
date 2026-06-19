@@ -9,7 +9,11 @@
     <div class="scroll-anchor" #scrollAnchor></div>
   </div>
   <div class="chat-input">
-    <textarea placeholder="Type your message..." [(ngModel)]="messageInput"></textarea>
+    <textarea
+      placeholder="Saisissez votre message..."
+      [(ngModel)]="messageInput"
+      (keyup)="onEnter($event)"
+    ></textarea>
     <button (click)="sendMessage()">Envoyer</button>
   </div>
 </div>

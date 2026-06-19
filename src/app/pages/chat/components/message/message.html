@@ -1,16 +1,16 @@
 <div class="message-container" [ngClass]="{ reverted: isCurrentUser }">
   <div class="profile-picture">
-    <div class="avatar">
+    <div class="avatar" [ngClass]="{ reverted: isCurrentUser }">
       <span>{{ message.sendBy.charAt(0) }}</span>
     </div>
   </div>
   <div class="message-content">
-    <div class="message-header" [ngClass]="{ reverted: isCurrentUser }">
+    <div class="message-header">
       <span class="username">{{ message.sendBy }}</span>
       <span>-</span>
       <span class="timestamp">{{ message.timestamp | date: 'shortTime' }}</span>
     </div>
-    <div class="message-text">
+    <div class="message-text" [ngClass]="{ reverted: isCurrentUser }">
       {{ message.content }}
     </div>
   </div>

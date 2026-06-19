@@ -17,4 +17,10 @@
 .content-container {
   width: 100%;
   max-width: 1200px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.material-symbols-outlined {
+  cursor: pointer;
 }

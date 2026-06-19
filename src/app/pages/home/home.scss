@@ -92,10 +92,6 @@ input {
 }
 
 .support-history-container {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: center;
   width: 100%;
   overflow-y: auto;
   padding-top: 10px;
@@ -106,4 +102,11 @@ input {
     min-height: 75px;
     width: 100%;
   }
+}
+
+.support-history-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }

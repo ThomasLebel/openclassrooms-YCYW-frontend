@@ -7,7 +7,7 @@
       <div class="new-chat-container">
         <h2>Créer un nouveau chat</h2>
         <input placeholder="Sujet du chat" [(ngModel)]="chatSubject" />
-        <textarea placeholder="Type your message..." [(ngModel)]="chatContent"> </textarea>
+        <textarea placeholder="Saisissez votre message..." [(ngModel)]="chatContent"> </textarea>
         <button>Envoyer</button>
       </div>
     } @else if (role === 'SUPPORT') {
@@ -19,19 +19,27 @@
           <span class="label">{{ isAvailable ? 'Disponible' : 'Indisponible' }}</span>
         </label>
       </div>
-      <h2>Tickets ouverts</h2>
-      <div class="support-history-container">
-        <div class="support-history-inner">
-          <app-chat-history-element></app-chat-history-element>
-          <app-chat-history-element></app-chat-history-element>
-          <app-chat-history-element></app-chat-history-element>
-          <app-chat-history-element></app-chat-history-element>
-          <app-chat-history-element></app-chat-history-element>
-          <app-chat-history-element></app-chat-history-element>
-          <app-chat-history-element></app-chat-history-element>
-          <app-chat-history-element></app-chat-history-element>
+      @if (isAvailable) {
+        <h2>Tickets ouverts</h2>
+        <div class="support-history-container">
+          <div class="support-history-inner">
+            <app-chat-history-element></app-chat-history-element>
+            <app-chat-history-element></app-chat-history-element>
+            <app-chat-history-element></app-chat-history-element>
+            <app-chat-history-element></app-chat-history-element>
+            <app-chat-history-element></app-chat-history-element>
+            <app-chat-history-element></app-chat-history-element>
+            <app-chat-history-element></app-chat-history-element>
+            <app-chat-history-element></app-chat-history-element>
+            <app-chat-history-element></app-chat-history-element>
+            <app-chat-history-element></app-chat-history-element>
+            <app-chat-history-element></app-chat-history-element>
+            <app-chat-history-element></app-chat-history-element>
+            <app-chat-history-element></app-chat-history-element>
+            <app-chat-history-element></app-chat-history-element>
+          </div>
         </div>
-      </div>
+      }
     }
   </div>
 }
