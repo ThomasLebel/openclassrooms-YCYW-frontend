@@ -30,9 +30,11 @@ button:hover {
 }
 
 .new-chat-container {
+  width: 300px;
   margin-top: 20px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 10px;
 }
 
@@ -109,4 +111,9 @@ input {
   flex-direction: column;
   align-items: center;
   gap: 10px;
+}
+
+.error {
+  color: red;
+  font-size: small;
 }

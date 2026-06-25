@@ -1,6 +1,6 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
-import { IMessage } from '../../../../models/message';
 import { DatePipe, NgClass } from '@angular/common';
+import { Component, inject, Input, OnInit } from '@angular/core';
+import { IMessage } from '../../../../models/IMessage';
 import { UserService } from '../../../../services/user-service';
 
 @Component({
@@ -11,13 +11,15 @@ import { UserService } from '../../../../services/user-service';
 })
 export class Message implements OnInit {
   @Input() message!: IMessage;
+  @Input() senderPseudo: string | null | undefined = null;
   isCurrentUser: boolean = false;
 
   private readonly userService = inject(UserService);
 
   ngOnInit(): void {
-    const username = this.userService.getUsername();
-    if (!username) return;
-    this.isCurrentUser = this.message.sendBy === username;
+    const role = this.userService.getRole();
+    const isAgent = role === 'SUPPORT';
+    this.isCurrentUser = this.message.fromAgent === isAgent;
+    console.log(this.message.sentAt);
   }
 }

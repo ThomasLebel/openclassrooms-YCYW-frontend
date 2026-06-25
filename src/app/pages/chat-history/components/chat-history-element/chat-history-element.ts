@@ -9,7 +9,4 @@ import { Router } from '@angular/router';
 })
 export class ChatHistoryElement {
   private readonly router = inject(Router);
-  onChatHistoryElementClick(): void {
-    this.router.navigate(['/chat']);
-  }
 }

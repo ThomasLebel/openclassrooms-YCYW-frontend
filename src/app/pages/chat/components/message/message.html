@@ -1,14 +1,14 @@
 <div class="message-container" [ngClass]="{ reverted: isCurrentUser }">
   <div class="profile-picture">
     <div class="avatar" [ngClass]="{ reverted: isCurrentUser }">
-      <span>{{ message.sendBy.charAt(0) }}</span>
+      <span>{{ senderPseudo?.charAt(0)?.toUpperCase() }}</span>
     </div>
   </div>
   <div class="message-content">
     <div class="message-header">
-      <span class="username">{{ message.sendBy }}</span>
+      <span class="username">{{ senderPseudo }}</span>
       <span>-</span>
-      <span class="timestamp">{{ message.timestamp | date: 'shortTime' }}</span>
+      <span class="timestamp">{{ message.sentAt | date: 'HH:mm' }}</span>
     </div>
     <div class="message-text" [ngClass]="{ reverted: isCurrentUser }">
       {{ message.content }}

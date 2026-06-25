@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { ChatHistoryElement } from './components/chat-history-element/chat-history-element';
 
 @Component({
@@ -7,4 +8,6 @@ import { ChatHistoryElement } from './components/chat-history-element/chat-histo
   templateUrl: './chat-history.html',
   styleUrl: './chat-history.scss',
 })
-export class ChatHistory {}
+export class ChatHistory {
+  public readonly router = inject(Router);
+}

@@ -3,14 +3,17 @@ import {
   effect,
   ElementRef,
   inject,
+  OnInit,
   signal,
   ViewChild,
   WritableSignal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { IMessage } from '../../models/message';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ConversationDTO } from '../../models/dto/ConversationDTO';
+import { ChatService } from '../../services/chat-service';
 import { UserService } from '../../services/user-service';
+import { WebSocketService } from '../../services/websocket.service';
 import { Message } from './components/message/message';
 
 @Component({
@@ -19,53 +22,38 @@ import { Message } from './components/message/message';
   templateUrl: './chat.html',
   styleUrl: './chat.scss',
 })
-export class Chat {
+export class Chat implements OnInit {
   @ViewChild('scrollAnchor')
   private scrollAnchor!: ElementRef<HTMLDivElement>;
   private readonly userService = inject(UserService);
   private readonly router = inject(Router);
-  messageInput: string = '';
-  messages: WritableSignal<IMessage[]> = signal([
-    {
-      content: 'Hello, how are you?',
-      timestamp: new Date(),
-      sendBy: 'Alice Admin',
-    },
-    {
-      content: 'I am fine, thank you! How about you?',
-      timestamp: new Date(),
-      sendBy: 'Bob User',
-    },
-    {
-      content: 'I am fine, thank you! How about you?',
-      timestamp: new Date(),
-      sendBy: 'Bob User',
-    },
-    {
-      content: 'I am fine, thank you! How about you?',
-      timestamp: new Date(),
-      sendBy: 'Bob User',
-    },
-    {
-      content: 'I am fine, thank you! How about you?',
-      timestamp: new Date(),
-      sendBy: 'Bob User',
-    },
-    {
-      content: 'I am fine, thank you! How about you?',
-      timestamp: new Date(),
-      sendBy: 'Bob User',
-    },
-  ]);
+  private readonly route = inject(ActivatedRoute);
+  private readonly chatService = inject(ChatService);
+  private readonly webservice = inject(WebSocketService);
+  messageInput = signal('');
+  private conversationId: number | null = null;
+
+  conversation: WritableSignal<ConversationDTO | null> = this.chatService.conversation;
 
   constructor() {
     effect(() => {
-      this.messages();
+      this.chatService.conversation()?.messages;
 
       queueMicrotask(() => {
         this.scrollToBottom();
       });
     });
+  }
+
+  ngOnInit(): void {
+    this.conversationId = this.route.snapshot.paramMap.get('id')
+      ? Number(this.route.snapshot.paramMap.get('id'))
+      : null;
+    if (!this.conversationId) {
+      this.router.navigate(['/chat-history']);
+      return;
+    }
+    this.getConversation(this.conversationId);
   }
 
   ngAfterViewInit(): void {
@@ -78,19 +66,19 @@ export class Chat {
       block: 'end',
     });
   }
+
+  private getConversation(id: number): void {
+    this.chatService.openConversation(id).subscribe({
+      error: (err) => {
+        console.error('Failed to fetch conversation:', err);
+        this.router.navigate(['/chat-history']);
+      },
+    });
+  }
   sendMessage(): void {
-    const username = this.userService.getUsername();
-    if (!username) {
-      this.router.navigate(['/login']);
-      return;
-    }
-    const newMessage: IMessage = {
-      content: this.messageInput,
-      timestamp: new Date(),
-      sendBy: username,
-    };
-    this.messages.set([...this.messages(), newMessage]);
-    this.messageInput = '';
+    if (this.messageInput().trim() === '') return;
+    this.chatService.sendMessage(this.messageInput(), this.userService.getRole() === 'SUPPORT');
+    this.messageInput.set('');
   }
 
   onEnter(event: KeyboardEvent): void {

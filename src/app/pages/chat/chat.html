@@ -3,15 +3,21 @@
     <h2>Chat</h2>
   </div>
   <div class="chat-messages">
-    @for (message of messages(); track $index) {
-      <app-message [message]="message"></app-message>
+    @for (message of conversation()?.messages; track $index) {
+      <app-message
+        [message]="message"
+        [senderPseudo]="
+          message.fromAgent ? conversation()?.agentPseudo : conversation()?.userPseudo
+        "
+      ></app-message>
     }
     <div class="scroll-anchor" #scrollAnchor></div>
   </div>
   <div class="chat-input">
     <textarea
       placeholder="Saisissez votre message..."
-      [(ngModel)]="messageInput"
+      [ngModel]="messageInput()"
+      (ngModelChange)="messageInput.set($event)"
       (keyup)="onEnter($event)"
     ></textarea>
     <button (click)="sendMessage()">Envoyer</button>

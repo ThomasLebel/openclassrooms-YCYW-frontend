@@ -1,14 +1,6 @@
 <div class="chat-history-container">
   <h2>Historique des chats</h2>
   <div class="chat-history-elements-container">
-    <app-chat-history-element></app-chat-history-element>
-    <app-chat-history-element></app-chat-history-element>
-    <app-chat-history-element></app-chat-history-element>
-    <app-chat-history-element></app-chat-history-element>
-    <app-chat-history-element></app-chat-history-element>
-    <app-chat-history-element></app-chat-history-element>
-    <app-chat-history-element></app-chat-history-element>
-    <app-chat-history-element></app-chat-history-element>
-    <app-chat-history-element></app-chat-history-element>
+    <app-chat-history-element (click)="router.navigate(['/chat', 3])"></app-chat-history-element>
   </div>
 </div>

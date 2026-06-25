@@ -1,14 +1,14 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
-import { role } from '../models/role';
+import { RoleType } from '../models/RoleType';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  username: WritableSignal<string | undefined> = signal(undefined);
-  role: WritableSignal<role | null> = signal(null);
+  username: WritableSignal<string | undefined> = signal('Test');
+  role: WritableSignal<RoleType | null> = signal('USER');
 
-  setUser(fullName: string, role: role): void {
+  setUser(fullName: string, role: RoleType): void {
     this.username.set(fullName);
     this.role.set(role);
   }
@@ -17,7 +17,7 @@ export class UserService {
     return this.username();
   }
 
-  getRole(): role | null {
+  getRole(): RoleType | null {
     return this.role();
   }
 
