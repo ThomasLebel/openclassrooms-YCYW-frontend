@@ -29,25 +29,15 @@
         <button (click)="createNewSupportTicket()">Envoyer</button>
       </div>
     } @else if (role() === 'SUPPORT') {
-      <h2>Tickets ouverts</h2>
+      <h2>Tickets en attente</h2>
       <div class="support-history-container">
         <div class="support-history-inner">
-          <app-chat-history-element
-            (click)="router.navigate(['/chat', 3])"
-          ></app-chat-history-element>
-          <app-chat-history-element></app-chat-history-element>
-          <app-chat-history-element></app-chat-history-element>
-          <app-chat-history-element></app-chat-history-element>
-          <app-chat-history-element></app-chat-history-element>
-          <app-chat-history-element></app-chat-history-element>
-          <app-chat-history-element></app-chat-history-element>
-          <app-chat-history-element></app-chat-history-element>
-          <app-chat-history-element></app-chat-history-element>
-          <app-chat-history-element></app-chat-history-element>
-          <app-chat-history-element></app-chat-history-element>
-          <app-chat-history-element></app-chat-history-element>
-          <app-chat-history-element></app-chat-history-element>
-          <app-chat-history-element></app-chat-history-element>
+          @for (ticket of waitingTicketsService.waitingTickets(); track $index) {
+            <app-chat-history-element
+              (click)="onWaitingTicketClick(ticket.id)"
+              [ticket]="ticket"
+            ></app-chat-history-element>
+          }
         </div>
       </div>
     }

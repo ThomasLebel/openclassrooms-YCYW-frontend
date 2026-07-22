@@ -1,7 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { UserService } from '../../services/user-service';
 import { Router } from '@angular/router';
+import { TicketsListService } from '../../services/tickets-list-service';
+import { UserService } from '../../services/user-service';
+import { WebSocketService } from '../../services/websocket.service';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +14,8 @@ import { Router } from '@angular/router';
 export class Login {
   private readonly userService = inject(UserService);
   private readonly router = inject(Router);
+  private readonly webSocketService = inject(WebSocketService);
+  private readonly ticketsListService = inject(TicketsListService);
   username: string = '';
   role: 'USER' | 'SUPPORT' | undefined = undefined;
   usernameError: boolean = false;
@@ -33,7 +37,9 @@ export class Login {
       return;
     }
     // Here you would typically call a service to handle authentication
-    this.userService.setUser(this.username, this.role);
+    this.userService.setUser(this.username.toLowerCase(), this.role);
+    this.webSocketService.connect();
+    this.ticketsListService.startListeningTicketHistory(this.username.toLowerCase());
     this.router.navigate(['/']);
   }
 }

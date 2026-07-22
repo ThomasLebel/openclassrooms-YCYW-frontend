@@ -4,6 +4,7 @@
 }
 
 .chat-history-element {
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -12,6 +13,9 @@
   border-radius: 20px;
   background-color: #f0f0f0;
   cursor: pointer;
+  &.unread {
+    border: 1px, solid, #cc7b1f;
+  }
   &:hover {
     background-color: #e0e0e0;
   }
@@ -22,4 +26,21 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+}
+
+.chat-history-element-unread-dot {
+  position: absolute;
+  top: -16px;
+  right: -16px;
+  min-width: 32px;
+  height: 32px;
+  padding: 0 4px;
+  border-radius: 50%;
+  background-color: #cc7b1f;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

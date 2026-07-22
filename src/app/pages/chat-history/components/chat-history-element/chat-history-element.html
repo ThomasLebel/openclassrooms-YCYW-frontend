@@ -1,9 +1,14 @@
-<div class="chat-history-element">
+<div class="chat-history-element" [ngClass]="{ unread: ticket().unreadCount > 0 }">
+  @if (ticket().unreadCount > 0) {
+    <span class="chat-history-element-unread-dot">{{ ticket().unreadCount }}</span>
+  }
   <div class="chat-history-element-header">
-    <span class="chat-history-element-date">2024-06-01 14:30</span>
+    <span class="chat-history-element-date">{{
+      ticket().lastMessageAt | date: 'dd/MM HH:mm'
+    }}</span>
   </div>
   <div class="chat-history-element-title">
-    <span>Sujet de la conversation</span>
+    <span>{{ ticket().subject }}</span>
   </div>
-  <span class="chat-history-element-status">Ouvert</span>
+  <span class="chat-history-element-status">{{ statusLabel() }}</span>
 </div>

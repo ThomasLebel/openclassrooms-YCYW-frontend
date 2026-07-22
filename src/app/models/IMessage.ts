@@ -1,6 +1,6 @@
 export interface IMessage {
   id: number;
-  fromAgent: boolean;
+  senderPseudo: string;
   content: string;
   sentAt: string;
   readAt: string | null;

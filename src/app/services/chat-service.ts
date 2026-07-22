@@ -15,6 +15,7 @@ export class ChatService {
   readonly conversation = signal<ConversationDTO | null>(null);
   private currentSubscription: StompSubscription | null = null;
   private currentConversationId: number | null = null;
+  private currentPseudo: string | null = null;
 
   private readonly ws: WebSocketService = inject(WebSocketService);
   private http: HttpClient = inject(HttpClient);
@@ -23,25 +24,36 @@ export class ChatService {
     return this.http.post<SupportTicketDTO>(`${environment.apiUrl}supportTickets`, payload);
   }
 
-  openConversation(conversationId: number): Observable<ConversationDTO> {
+  openConversation(conversationId: number, pseudo: string): Observable<ConversationDTO> {
     this.closeConversation();
     return this.http
-      .get<ConversationDTO>(`${environment.apiUrl}supportTickets/${conversationId}/messages`)
+      .get<ConversationDTO>(`${environment.apiUrl}supportTickets/${conversationId}/messages`, {
+        params: { pseudo },
+      })
       .pipe(
         tap((conversation) => {
           this.conversation.set(conversation);
-          console.log(this.conversation());
           this.currentConversationId = conversationId;
+          this.currentPseudo = pseudo;
           this.conversationSubscription();
         }),
       );
+  }
+
+  readConversation(conversationId: number, pseudo: string): Observable<void> {
+    return this.http.post<void>(
+      `${environment.apiUrl}supportTickets/${conversationId}/read`,
+      null,
+      {
+        params: { readerPseudo: pseudo },
+      },
+    );
   }
 
   conversationSubscription(): void {
     this.currentSubscription = this.ws.subscribe(
       `/topic/supportTicket.${this.currentConversationId}`,
       (message) => {
-        console.log('Message recu');
         const newMsg: IMessage = JSON.parse(message.body);
         if (!this.conversation()) return this.closeConversation();
         this.conversation.update((current) => {
@@ -51,6 +63,7 @@ export class ChatService {
             messages: [...current.messages, newMsg],
           };
         });
+        this.readConversation(this.currentConversationId!, this.currentPseudo!).subscribe();
       },
     );
   }
@@ -62,11 +75,11 @@ export class ChatService {
     this.conversation.set(null);
   }
 
-  sendMessage(content: string, fromAgent: boolean): void {
+  sendMessage(content: string, pseudo: string): void {
     if (!this.currentConversationId) return;
     this.ws.publish('/app/message.send', {
       conversationId: this.currentConversationId,
-      fromAgent: fromAgent,
+      pseudo,
       content,
     });
   }

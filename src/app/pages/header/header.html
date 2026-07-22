@@ -2,7 +2,13 @@
   <div class="content-container">
     <span class="header-title" (click)="goHome()">YCYW</span>
     @if (userService.isLoggedIn()) {
-      <div>
+      <div class="header-icons">
+        <div class="inbox-container">
+          <span class="material-symbols-outlined" (click)="navigateToChatHistory()"> inbox </span>
+          @if (ticketsListService.totalUnread() > 0) {
+            <span class="inbox-badge">{{ ticketsListService.totalUnread() }}</span>
+          }
+        </div>
         <span class="material-symbols-outlined" (click)="disconnect()"> logout </span>
       </div>
     }

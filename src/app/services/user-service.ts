@@ -5,15 +5,17 @@ import { RoleType } from '../models/RoleType';
   providedIn: 'root',
 })
 export class UserService {
-  username: WritableSignal<string | undefined> = signal('Test');
-  role: WritableSignal<RoleType | null> = signal('USER');
+  username: WritableSignal<string | null> = signal(null);
+  role: WritableSignal<RoleType | null> = signal(null);
+  isAgent: WritableSignal<boolean> = signal(false);
 
   setUser(fullName: string, role: RoleType): void {
     this.username.set(fullName);
     this.role.set(role);
+    this.isAgent.set(role === 'SUPPORT');
   }
 
-  getUsername(): string | undefined {
+  getUsername(): string | null {
     return this.username();
   }
 
@@ -21,12 +23,16 @@ export class UserService {
     return this.role();
   }
 
+  getIsAgent(): boolean {
+    return this.isAgent();
+  }
+
   isLoggedIn(): boolean {
     return this.role() !== null;
   }
 
   disconnect(): void {
-    this.username.set(undefined);
+    this.username.set(null);
     this.role.set(null);
   }
 }

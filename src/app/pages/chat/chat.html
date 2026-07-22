@@ -4,12 +4,7 @@
   </div>
   <div class="chat-messages">
     @for (message of conversation()?.messages; track $index) {
-      <app-message
-        [message]="message"
-        [senderPseudo]="
-          message.fromAgent ? conversation()?.agentPseudo : conversation()?.userPseudo
-        "
-      ></app-message>
+      <app-message [message]="message"></app-message>
     }
     <div class="scroll-anchor" #scrollAnchor></div>
   </div>

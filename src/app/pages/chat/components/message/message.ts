@@ -10,16 +10,12 @@ import { UserService } from '../../../../services/user-service';
   styleUrl: './message.scss',
 })
 export class Message implements OnInit {
-  @Input() message!: IMessage;
-  @Input() senderPseudo: string | null | undefined = null;
-  isCurrentUser: boolean = false;
-
   private readonly userService = inject(UserService);
+  @Input() message!: IMessage;
+  isCurrentUser!: boolean;
 
   ngOnInit(): void {
-    const role = this.userService.getRole();
-    const isAgent = role === 'SUPPORT';
-    this.isCurrentUser = this.message.fromAgent === isAgent;
-    console.log(this.message.sentAt);
+    this.isCurrentUser =
+      this.message.senderPseudo.toLowerCase() === this.userService.getUsername()?.toLowerCase();
   }
 }
