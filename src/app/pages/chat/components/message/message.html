@@ -8,7 +8,7 @@
     <div class="message-header">
       <span class="username">{{ message.senderPseudo.toLowerCase() }}</span>
       <span>-</span>
-      <span class="timestamp">{{ message.sentAt | date: 'HH:mm' }}</span>
+      <span class="timestamp">{{ message.sentAt | date: 'dd/MM HH:mm' }}</span>
     </div>
     <div class="message-text" [ngClass]="{ reverted: isCurrentUser }">
       {{ message.content }}
